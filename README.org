@@ -1,0 +1,10 @@
+*Render HTML source code blocks to images in Org mode for Emacs.*
+
+[[example.png]]
+
+** Header Arguments
+
+- ~width~ :: Viewport width in pixels. Defaults to 800.
+- ~height~ :: Viewport height in pixels. Defaults to 600.
+- ~scale~ :: Device scale factor. Increase to simulate high DPI displays or for print publications. Defaults to 2.
+- ~selector~ :: Optional CSS selector specifying a DOM element to capture. Defaults to whole page.

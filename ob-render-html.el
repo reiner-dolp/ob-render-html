@@ -59,7 +59,7 @@
 
 (defun org-babel-execute:render-html (body params)
   "Execute a render-html block."
-  (let* ((driving-script (concat ob-render-html-base-dir "ob-render-html.js"))
+  (let* ((driving-script (concat ob-render-html-base-dir "ensure-dependencies.js"))
          (out (or (cdr (assoc :out params))
                   (error "render-html code blocks require a :out header argument")))
          (width (or (cdr (assoc :width params))
@@ -68,11 +68,9 @@
                     ob-render-html:height))
          (scale (or (cdr (assoc :scale params))
                      ob-render-html:scale))
-
          (selector (or (cdr (assoc :selector params))
                     ob-render-html:selector))
          (cmd (format "node '%s' %d %d %d '%s' %s" driving-script width height scale out selector)))
-         (print cmd)
     (org-babel-eval cmd body)
     out))
 

@@ -1,8 +1,40 @@
-*Render HTML source code blocks to images in Org mode for Emacs.*
+*Render HTML source code blocks to images in Org mode for Emacs.* Uses headless
+chrome for rendering.
+
+This package is designed as a replacement for
+[[https://github.com/krisajenkins/ob-browser][~ob-browser~]], which relies on
+[[https://github.com/ariya/phantomjs][PhantomJS]],
+[[https://github.com/ariya/phantomjs/issues/15344][which is no longer
+developed]], and therefore is missing essential features like flex box.
+
+Note that the initial invokation of package functions after installation may
+take a while as dependencies are downloaded in the background.
 
 [[example.png]]
 
-** Header Arguments
+** Installation
+
+If you are installing from a local copy, use the following recipe:
+
+#+BEGIN_SRC emacs-lisp
+   dotspacemacs-additional-packages '((ob-render-html :location
+                      (recipe :fetcher file
+                              :path "~/.emacs.d/private/local/ob-render-html/"
+                              :files ("*.js" "*.json" "*.el")))
+#+END_SRC
+
+If you are installing from github, use the following recipe:
+
+#+BEGIN_SRC emacs-lisp
+   dotspacemacs-additional-packages '((ob-render-html :location
+                      (recipe :fetcher github
+                              :path "reiner-dolp/ob-render-html"
+                              :files ("*.js" "*.json" "*.el")))
+#+END_SRC
+
+** Usage
+
+*** Header Arguments
 
 - ~width~ :: Viewport width in pixels. Defaults to 800.
 - ~height~ :: Viewport height in pixels. Defaults to 600.

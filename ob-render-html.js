@@ -1,5 +1,6 @@
 "use strict";
 
+const util = require('./util');
 const puppeteer = require('puppeteer');
 const path = require('path');
 
@@ -17,15 +18,13 @@ function read_stdin() {
 
                 stdin.on('end', function () {
                     var input = inputChunks.join();
-                    console.log(input);
                     resolve(input);
                 });
         });
 }
 
 if (process.argv.length <= 2) {
-    console.log("Usage: " + argv[0] + " " + argv[1] + " WIDTH HEIGHT SCALE OUTPUT_FILENAME [SELECTOR]");
-    process.exit(1);
+    util.exitWithError("Usage: " + argv[0] + " " + argv[1] + " WIDTH HEIGHT SCALE OUTPUT_FILENAME [SELECTOR]");
 }
 
 var viewport = {
@@ -35,18 +34,15 @@ var viewport = {
 };
 
 if (viewport.width <= 0) {
-    console.log("WIDTH has to be a positive integer");
-    process.exit(1);
+    util.exitWithError("WIDTH has to be a positive integer");
 }
 
 if (viewport.height <= 0) {
-    console.log("HEIGHT has to be a positive integer");
-    process.exit(1);
+    util.exitWithError("HEIGHT has to be a positive integer");
 }
 
 if (viewport.deviceScaleFactor <= 0) {
-    console.log("SCALE has to be a positive integer");
-    process.exit(1);
+    util.exitWithError("SCALE has to be a positive integer");
 }
 
 var out_filename = process.argv[5];
@@ -56,38 +52,37 @@ var browser;
 
 (async () => {
 
-const page_content = await read_stdin();
-
-browser = await puppeteer.launch();
-const page = await browser.newPage();
-
-page.setViewport(viewport);
-await page.setContent(page_content);
-
-var page_element;
-var screenshot_options = {
-    path: out_filename,
-};
-
-if (selector) {
-    page_element = await page.$(selector);
-    if(page_element === null) {
-        return Promise.reject(new Error("selected element could not be found"));
+    const page_content = await read_stdin();
+    
+    browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    
+    page.setViewport(viewport);
+    await page.setContent(page_content);
+    
+    var page_element;
+    var screenshot_options = {
+        path: out_filename,
+    };
+    
+    if (selector) {
+        page_element = await page.$(selector);
+        if(page_element === null) {
+            return Promise.reject(new Error("selected element could not be found"));
+        }
+    } else {
+        page_element = page;
+        screenshot_options.fullPage = true;
     }
-} else {
-    page_element = page;
-    screenshot_options.fullPage = true;
-}
-
-await page_element.screenshot(screenshot_options);
-
-browser.close();
+    
+    await page_element.screenshot(screenshot_options);
+    
+    browser.close();
 
 })().catch((e) => {
     if(browser && browser.close) {
         browser.close();
     }
 
-    console.log("Rendering failed:", e);
-    process.exit(1);
+    exitWithError("Rendering failed: " + e);
 });

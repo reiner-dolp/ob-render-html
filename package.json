@@ -1,0 +1,23 @@
+{
+  "name": "ob-render-html",
+  "version": "0.0.1",
+  "description": "org-babel functions for rendering HTML using headless chrome",
+  "main": "ob-render-html.js",
+  "dependencies": {
+    "puppeteer": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reiner-dolp/ob-render-html.git"
+  },
+  "author": "Reiner Dolp",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/reiner-dolp/ob-render-html/issues"
+  },
+  "homepage": "https://github.com/reiner-dolp/ob-render-html#readme"
+}
